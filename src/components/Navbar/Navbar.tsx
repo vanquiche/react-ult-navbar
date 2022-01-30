@@ -1,15 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 interface NavbarProps {
-  position: 'top' | 'left' | 'right',
-  fixed: boolean,
-  bgColor: string,
-  fontSize: 'small' | 'medium' | 'large',
-  fontColor: string,
+  // position: 'top' | 'left' | 'right',
+  // fixed: boolean,
+  // bgColor: string,
+  // fontSize: 'small' | 'medium' | 'large',
+  // fontColor: string,
 }
 
-const Navbar = (props: NavbarProps) => {
+const Navbar = () => {
   return <nav>Test</nav>;
 };
 
