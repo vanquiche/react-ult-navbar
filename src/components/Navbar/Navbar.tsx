@@ -5,8 +5,7 @@ interface NavbarProps {
   position: 'top' | 'left' | 'right',
   fixed: boolean,
   bgColor: string,
-  fontSize: string,
-  fontUnit: 'px' | 'rem' | 'em',
+  fontSize: 'small' | 'medium' | 'large',
   fontColor: string,
 }
 
