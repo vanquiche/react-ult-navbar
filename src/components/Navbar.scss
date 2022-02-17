@@ -1,15 +1,4 @@
-@use "sass:map";
-
 $mobile-screen: 768px;
-$tablet-screen: 768px;
-$desktop-screen: (
-  'min': 780px,
-  'max': 1900px,
-);
-
-$mobile-color: lightgreen;
-$tablet-color: lightblue;
-$desktop-color: tomato;
 
 .layer-shadow {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
@@ -38,16 +27,14 @@ html {
 }
 
 .nav-header {
-
   transition: 0.1s ease-out;
   transform-origin: top;
 }
 
-
 // navbar base class
 .navbar {
   min-height: 72px;
-  // height: 100%;
+
   width: 100vw;
   margin: 0;
   margin-bottom: 0.75rem;
@@ -73,9 +60,6 @@ html {
 }
 
 .mobile-nav {
-  // display: flex;
-  // flex-direction: column;
-
   width: 100%;
   @extend .listReset;
   li {
@@ -84,10 +68,8 @@ html {
 }
 .dropdown-desktop {
   position: absolute;
-  // border: 1px solid red;
   right: 0;
   margin-top: 0.5rem;
-  // transform: translateX(-50%);
   padding: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -112,7 +94,6 @@ html {
 }
 .dropdown-link-mobile {
   transition: 0.4s ease;
-
 }
 .btn-caret {
   transform: rotate(90deg);
@@ -125,8 +106,6 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  // align-items: flex-end;
-  // border: 1px solid red;
 }
 .col-1 {
   grid-area: col-1;
@@ -144,7 +123,6 @@ html {
   width: 32px;
   height: auto;
   align-self: center;
-
 }
 .logo-text {
   grid-area: brand-name;
@@ -157,22 +135,8 @@ html {
 }
 
 .btn-click {
-  // pointer-events: inherit;
   cursor: pointer;
-  // transition: 0.1s ease;
 }
-
-// @media (min-width: map.get($desktop-screen, 'min')) and (max-width: map.get($desktop-screen, 'max')) {
-//   .navbar {
-//     background-color: $desktop-color;
-//   }
-// }
-
-// @media (max-width: $tablet-screen) {
-//   .navbar {
-//     background-color: $tablet-color;
-//   }
-// }
 
 @media (max-width: $mobile-screen) {
   .navbar-grid {

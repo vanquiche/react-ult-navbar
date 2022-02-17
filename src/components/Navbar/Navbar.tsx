@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Link, NavLink } from 'react-router-dom';
-import './Navbar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
+// css styles
+import '../Navbar.scss';
 
 import { Desktop, Mobile } from '../Views';
 import SubMenu from '../SubMenu';
