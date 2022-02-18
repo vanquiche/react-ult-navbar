@@ -1,6 +1,6 @@
 {
   "name": "react-ult-navbar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react navbar library",
   "main": "dist/cjs/index.js",
   "scripts": {
@@ -17,12 +17,19 @@
     "@types/uuid": "^8.3.4",
     "postcss": "^8.4.6",
     "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "rollup": "^2.66.1",
     "rollup-plugin-dts": "^4.1.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.49.7",
     "typescript": "^4.5.5"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1"
   },
   "module": "dist/esm/index.js",
   "files": [
