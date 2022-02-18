@@ -12,7 +12,7 @@ import '../Navbar.scss';
 import { Desktop, Mobile } from '../Views';
 import SubMenu from '../SubMenu';
 // Type
-import NAVLINK from '../NAVLINK';
+import NAVLINK from '../Types';
 
 interface navProps {
   bgColor?: string;
