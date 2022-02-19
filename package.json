@@ -1,6 +1,6 @@
 {
   "name": "react-ult-navbar",
-  "version": "0.0.2",
+  "version": "0.0.7",
   "description": "react navbar library",
   "main": "dist/cjs/index.js",
   "scripts": {

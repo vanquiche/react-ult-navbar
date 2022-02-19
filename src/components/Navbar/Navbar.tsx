@@ -9,10 +9,10 @@ import { motion } from 'framer-motion';
 // css styles
 import '../Navbar.scss';
 
-import { Desktop, Mobile } from '../Views';
-import SubMenu from '../SubMenu';
+import { Desktop, Mobile } from './Views';
+import SubMenu from './SubMenu';
 // Type
-import NAVLINK from '../Types';
+import NAVLINK from './NAVLINK';
 
 interface navProps {
   bgColor?: string;

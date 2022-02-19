@@ -24,6 +24,7 @@ $mobile-screen: 768px;
 body,
 html {
   margin: 0;
+  padding: 0;
 }
 
 .nav-header {
@@ -34,7 +35,6 @@ html {
 // navbar base class
 .navbar {
   min-height: 72px;
-
   width: 100vw;
   margin: 0;
   margin-bottom: 0.75rem;
@@ -49,6 +49,9 @@ html {
   display: grid;
   gap: 10px;
   grid-template-columns: 32px auto repeat(3, auto);
+  grid-template-rows:
+    'top'
+    'menu';
   grid-template-areas: 'logo brand-name col-1 col-2 col-3';
 }
 
@@ -60,7 +63,7 @@ html {
 }
 
 .mobile-nav {
-  width: 100%;
+  grid-area: menu;
   @extend .listReset;
   li {
     padding: 10px 0;
@@ -70,6 +73,7 @@ html {
   position: absolute;
   right: 0;
   margin-top: 0.5rem;
+
   padding: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -118,6 +122,7 @@ html {
 .col-3 {
   grid-area: col-3;
 }
+
 .logo {
   grid-area: logo;
   width: 32px;
