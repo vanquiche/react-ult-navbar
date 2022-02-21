@@ -1,0 +1,159 @@
+$mobile-screen: 768px;
+
+.layer-shadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+    0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+}
+
+.listReset {
+  margin: 0;
+  padding: 0;
+  a {
+    text-decoration: none;
+  }
+
+  li {
+    list-style-type: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-header {
+  transition: 0.1s ease-out;
+  transform-origin: top;
+}
+
+// navbar base class
+.navbar {
+  min-height: 72px;
+  width: 100vw;
+  margin: 0;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  position: relative;
+  a {
+    text-decoration: none;
+  }
+}
+.navbar-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 32px auto repeat(3, auto);
+  grid-template-rows:
+    'top'
+    'menu';
+  grid-template-areas: 'logo brand-name col-1 col-2 col-3';
+}
+
+.desktop-nav {
+  margin: 0;
+  padding: 0 16px;
+  align-self: center;
+  @extend .listReset;
+}
+
+.mobile-nav {
+  grid-area: menu;
+  @extend .listReset;
+  li {
+    padding: 10px 0;
+  }
+}
+.dropdown-desktop {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+
+  padding: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  border-radius: 4px;
+  @extend .layer-shadow;
+}
+.dropdown-mobile {
+  padding: 0;
+  grid: menu;
+}
+
+.dropdown-link {
+  padding: 10px 20px;
+  transition: 0.4s ease;
+  &:first-child {
+    border-radius: 4px 4px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+}
+.dropdown-link-mobile {
+  transition: 0.4s ease;
+}
+.btn-caret {
+  transform: rotate(90deg);
+}
+.flip-caret {
+  transform: rotate(0deg);
+}
+
+.desktop-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.col-1 {
+  grid-area: col-1;
+}
+
+.col-2 {
+  grid-area: col-2;
+}
+
+.col-3 {
+  grid-area: col-3;
+}
+
+.logo {
+  grid-area: logo;
+  width: 32px;
+  height: auto;
+  align-self: center;
+}
+.logo-text {
+  grid-area: brand-name;
+  margin-left: 0.2rem;
+  display: inline-block;
+}
+.active {
+  cursor: default;
+  color: blue;
+}
+
+.btn-click {
+  cursor: pointer;
+}
+
+@media (max-width: $mobile-screen) {
+  .navbar-grid {
+    gap: 5px;
+    grid-template-columns: 1fr 32px;
+    grid-template-rows: 36px auto;
+    grid-template-areas:
+      'top'
+      'menu';
+  }
+  .logo-text {
+    grid-area: top;
+    text-align: center;
+  }
+}
