@@ -1,18 +1,15 @@
 // imported modules
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Link, NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
-// css styles
-import '../Navbar.scss';
+import './Navbar.scss';
 
 import { Desktop, Mobile } from './Views';
+import HamburgerBtn from './HamburgerBtn';
 import SubMenu from './SubMenu';
 // Type
-import NAVLINK from './NAVLINK';
+import navLink from './NAVLINK';
 
 interface navProps {
   bgColor?: string;
@@ -21,7 +18,7 @@ interface navProps {
   fontSize?: string;
   position?: 'start' | 'center' | 'end';
   fixed?: boolean;
-  links?: NAVLINK[];
+  links?: navLink[];
   logoIcon?: string;
   logoText?: string;
   logoTextClass?: string;
@@ -33,6 +30,9 @@ const Navbar = (props: navProps) => {
   // state used to expand and collapse menu when in mobile view
   const [expandMenu, setExpandMenu] = useState(false);
 
+  const handleClick = () => {
+    setExpandMenu(!expandMenu);
+  };
   // animation variant for motion
   const variants = {
     expand: { scaleY: 1 },
@@ -43,6 +43,7 @@ const Navbar = (props: navProps) => {
   const DesktopView = () => {
     return (
       <Desktop>
+        {/* logo and icon rendered if provided by user */}
         {props.logoIcon && (
           <Link to='/' style={{ alignSelf: 'center' }}>
             <img className='logo' src={props.logoIcon} alt='brand logo' />
@@ -60,6 +61,8 @@ const Navbar = (props: navProps) => {
             {props.logoText}
           </Link>
         )}
+
+        {/* maps over provided prop of 'links' */}
         <ul
           className={`desktop-nav desktop-link ${
             props.position === 'start'
@@ -70,7 +73,7 @@ const Navbar = (props: navProps) => {
           }`}
           style={{ color: props.fontColor, fontSize: props.fontSize }}
         >
-          {props.links?.map((link: NAVLINK, index) => {
+          {props.links?.map((link: navLink, index) => {
             return (
               <>
                 <li key={uuidv4()} style={{ position: 'relative' }}>
@@ -87,7 +90,7 @@ const Navbar = (props: navProps) => {
                   >
                     {link.text}
                   </NavLink>
-                  {/* if children exist, render drop down menu */}
+                  {/* if children exist, render drop-down menu */}
                   {link.children && (
                     <SubMenu
                       parentPath={link.path}
@@ -111,13 +114,12 @@ const Navbar = (props: navProps) => {
     return (
       <Mobile>
         {/* menu icon / exit icon */}
-        <FontAwesomeIcon
-          icon={expandMenu ? faTimes : faBars}
-          className='btn-click'
-          style={{ color: props.fontColor, alignSelf: 'center' }}
-          onClick={() => setExpandMenu(!expandMenu)}
+        <HamburgerBtn
+          color={props.fontColor}
+          size={props.fontSize ? props.fontSize : '100px'}
+          handleChange={handleClick}
+          toggleState={expandMenu}
         />
-
         {props.logoText && (
           <Link
             to='/'
@@ -131,6 +133,7 @@ const Navbar = (props: navProps) => {
             {props.logoText}
           </Link>
         )}
+
         <motion.ul
           className='mobile-nav'
           style={{
@@ -143,7 +146,7 @@ const Navbar = (props: navProps) => {
           animate='expand'
         >
           {expandMenu &&
-            props.links?.map((link: NAVLINK, index) => {
+            props.links?.map((link: navLink, index) => {
               return (
                 <li key={uuidv4()}>
                   <NavLink
@@ -175,7 +178,7 @@ const Navbar = (props: navProps) => {
   };
 
   return (
-    <header className='nav-header'>
+    <header>
       <nav
         className={`navbar navbar-grid ${props.addClass}`}
         style={{

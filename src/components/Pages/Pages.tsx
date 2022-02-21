@@ -1,15 +1,15 @@
-import React from 'react';
+
 import { Routes, Route } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import NAVLINK from '../Navbar/NAVLINK';
+import navLink from './NAVLINK';
 
-const Pages = (props: { pages: NAVLINK[] }) => {
+const Pages = (props: { pages: navLink[] }) => {
   return (
     <Routes>
-      {props.pages.map((page: NAVLINK) => {
+      {props.pages.map((page) => {
         return (
           <Route key={uuidv4()} path={page.path}>
-            <Route index={true} element={page.component}/>
+            <Route index={true} element={page.component} />
             {/* render nested routes if children exist */}
             {page.children &&
               page.children.map((child) => {
@@ -17,7 +17,7 @@ const Pages = (props: { pages: NAVLINK[] }) => {
                   <Route
                     key={uuidv4()}
                     path={child.path}
-                    element={<div><h1>{child.text}</h1></div>}
+                    element={child.component}
                     index={false}
                   />
                 );
