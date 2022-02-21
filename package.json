@@ -1,6 +1,6 @@
 {
   "name": "react-ult-navbar",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "react navbar library",
   "main": "dist/cjs/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "rollup": "rollup -c"
   },
   "author": "vanquiche",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
@@ -41,5 +41,12 @@
   "dependencies": {
     "framer-motion": "^6.2.6",
     "react-responsive": "^9.0.0-beta.6"
-  }
+  },
+  "keywords": [
+    "react",
+    "navbar",
+    "navigation",
+    "react-router",
+    "component"
+  ]
 }
