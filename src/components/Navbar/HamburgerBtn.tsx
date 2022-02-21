@@ -32,7 +32,7 @@ const HamburgerBtn = (props: propTypes) => {
     <div
       key={uuidv4()}
       className='menu'
-      style={{ height: props.size || '1.1rem', width: props.size || '1.1rem'}}
+      style={{ height: props.size || '32px', width: props.size || '32px'}}
       onClick={handleClick}
     >
       {/* top menu bar */}
@@ -41,7 +41,7 @@ const HamburgerBtn = (props: propTypes) => {
         className='menu-bar top-bar'
         style={{
           backgroundColor: props.color,
-          top: openMenu ? '42.5%' : '10%',
+          top: openMenu ? '36%' : '10%',
         }}
         initial={openMenu ? { rotate: 0 } : { rotate: 45 }}
         animate={openMenu ? { rotate: 45 } : { rotate: 0 }}
@@ -64,7 +64,7 @@ const HamburgerBtn = (props: propTypes) => {
         className='menu-bar bottom-bar'
         style={{
           backgroundColor: props.color,
-          bottom: openMenu ? '42.5%' : '10%',
+          bottom: openMenu ? '36%' : '10%',
         }}
         initial={openMenu ? { rotate: 0 } : { rotate: -45 }}
         animate={openMenu ? { rotate: -45 } : { rotate: 0 }}
