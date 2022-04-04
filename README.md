@@ -1,12 +1,8 @@
 # react-ult-navbar
 
----
-
 react-ult-navbar is navigation component for your React project that is highly customizable and mobile responsive. Before using please consider that this component relies on the use of **React Router** version 6 in your project. Additionally, this component uses **Framer Motion** that may conflict with other animation libraries.
 
 # Getting Started
-
----
 
 ### Installation
 
@@ -91,8 +87,6 @@ If you followed the steps above then you should be set for navigation!
 
 ## Props
 
----
-
 ### Navbar Mandatory Prop
 Both Navbar and Pages component requires a prop of "links" that accepts an Array of Objects to render yours links and routes.
 | Key | Type | value |
@@ -116,7 +110,5 @@ Both Navbar and Pages component requires a prop of "links" that accepts an Array
 | addClass | string | null | add className for additional styling of navbar |
 
 ## License
-
----
 
 MIT
