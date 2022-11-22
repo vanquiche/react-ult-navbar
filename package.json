@@ -4,17 +4,28 @@
   "description": "react navbar library",
   "main": "dist/cjs/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "rollup": "rollup -c"
+    "rollup": "rollup -c",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "vanquiche",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.20.2",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@rollup/plugin-typescript": "^8.3.0",
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-interactions": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/builder-webpack4": "^6.5.13",
+    "@storybook/manager-webpack4": "^6.5.13",
+    "@storybook/react": "^6.5.13",
+    "@storybook/testing-library": "^0.0.13",
     "@types/react": "^17.0.38",
     "@types/uuid": "^8.3.4",
+    "babel-loader": "^8.3.0",
     "postcss": "^8.4.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -38,15 +49,12 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "framer-motion": "^6.2.6",
-    "react-responsive": "^9.0.0-beta.6"
-  },
   "keywords": [
     "react",
     "navbar",
     "navigation",
     "react-router",
     "component"
-  ]
+  ],
+  "dependencies": {}
 }
