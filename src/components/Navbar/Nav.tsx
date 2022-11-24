@@ -1,16 +1,22 @@
-import styles from './Nav.module.css';
+import { useRef } from 'react';
 import { Props, NavigationNode } from '../types';
-import { CSSProperties, useMemo, useRef, useState } from 'react';
 import SubMenu from '../SubMenu.tsx/SubMenu';
+import styles from './Nav.module.css';
+import '../global.css';
 
-const CustomLinkEl = ({ name }: { name: string }) => (
-  <p style={{ color: 'tomato' }}>{name}</p>
+const DefaultLinkEl = ({ name }: { name: string }) => (
+  <a
+    style={{ display: 'inline', zIndex: 20 }}
+    href='#'
+    className={styles.navLink}
+  >
+    {name}
+  </a>
 );
 
-const DefaultLinkEl = ({ name }: { name: string }) => <p>{name}</p>;
+const Logo = () => <span>L</span>;
 
-const Nav = ({ text }: Props) => {
-  const [showMenu, setShowMenu] = useState(false);
+const Nav = ({ text, logoName, logoIcon = <Logo /> }: Props) => {
   const navigationTree: NavigationNode[] = [
     {
       name: 'Link 1',
@@ -18,9 +24,7 @@ const Nav = ({ text }: Props) => {
     },
     {
       name: 'Link 2',
-      href: '#',
-
-      child: [
+      dropdown: [
         {
           name: 'Child Link 1',
           href: '#',
@@ -39,51 +43,102 @@ const Nav = ({ text }: Props) => {
       name: 'Link 4',
       href: '#',
     },
+    {
+      name: 'Link 5',
+      dropdown: [
+        {
+          name: 'Child Link 1',
+          href: '#',
+        },
+        {
+          name: 'Child Link 2',
+          href: '#',
+        },
+        {
+          name: 'Child Link 3',
+          href: '#',
+        },
+        {
+          name: 'Child Link 4',
+          href: '#',
+        },
+        {
+          name: 'Child Link 5',
+          href: '#',
+        },
+      ],
+    },
+    {
+      name: 'Link 6',
+      href: '#',
+    },
+    {
+      name: 'Link 7',
+      href: '#',
+    },
+    {
+      name: 'Link 8',
+      dropdown: [
+        {
+          name: 'Child Link 1',
+          href: '#',
+        },
+        {
+          name: 'Child Link 2',
+          href: '#',
+        },
+      ],
+    },
   ];
 
-  const dropdownMenuStyle: CSSProperties = {
-    display: showMenu ? 'block' : 'none',
-  };
-
   return (
-    <nav className={styles.container}>
-      <ul style={{ display: 'flex' }}>
-        {navigationTree.map((node, i) => {
-          return node.name ? (
-            <li
-              key={i}
-              style={{
-                position: 'relative',
-                outline: '1px solid red',
-                display: 'inline-block',
-              }}
-            >
-              <DefaultLinkEl name={node.name} />
-
-              {/* CHILDREN - DROPDOWN */}
-              {node.child && <SubMenu navigation={node.child} />}
-            </li>
-          ) : (
-            <li key={i}>
-              {node.linkElement}
-              {node.child && (
-                <ul>
-                  {node.child.map((childNode, j) => {
-                    return childNode.name ? (
-                      <li key={i + j}>
-                        <DefaultLinkEl name={childNode.name} />
-                      </li>
-                    ) : (
-                      <li key={i + j}>{childNode.linkElement}</li>
-                    );
-                  })}
-                </ul>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <>
+      <nav className={styles.container}>
+        {(logoName || logoIcon) && (
+          <div
+            style={{
+              outline: '1px solid red',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+              padding: '0 10px',
+            }}
+          >
+            {logoIcon}
+            <span style={{ marginLeft: '1rem' }}>{logoName}</span>
+          </div>
+        )}
+        <ul
+          style={{
+            display: 'flex',
+            gap: '2.5rem',
+            outline: '1px solid green',
+            padding: '20px',
+            zIndex: 10,
+            overflowX: 'visible',
+          }}
+        >
+          {navigationTree.map((node, i) => {
+            return (
+              <li
+                key={i}
+                style={{
+                  position: 'relative',
+                  whiteSpace: 'nowrap',
+                  zIndex: 10,
+                }}
+              >
+                {node.linkElement || <DefaultLinkEl name={node.name} />}
+                {/* CHILDREN - DROPDOWN */}
+                {/* {node.child && (
+                  <span style={{ display: 'inline', margin: '0 10px' }}>d</span>
+                )} */}
+                {node.dropdown && <SubMenu navigation={node.dropdown} />}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </>
   );
 };
 

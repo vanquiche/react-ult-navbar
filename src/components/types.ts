@@ -1,5 +1,7 @@
 export interface Props {
   text?: string;
+  logoName?: string;
+  logoIcon?: JSX.Element;
 }
 
 export interface SubMenuProps {
@@ -8,19 +10,28 @@ export interface SubMenuProps {
 
 export interface NavNodeBase {
   icon?: JSX.Element;
-  child?: NavigationNode[] | null;
+  name: string;
 }
 
 export interface NavigationLink extends NavNodeBase {
-  name: string;
   href: string;
+  dropdown?: never;
   linkElement?: never;
 }
 
 export interface NavigationWrapper extends NavNodeBase {
-  name?: never;
   href?: never;
+  dropdown?: never;
   linkElement: JSX.Element;
 }
 
-export type NavigationNode = NavigationLink | NavigationWrapper;
+export interface NavigationDropdown extends NavNodeBase {
+  href?: never;
+  linkElement?: never;
+  dropdown: NavigationNode[];
+}
+
+export type NavigationNode =
+  | NavigationLink
+  | NavigationWrapper
+  | NavigationDropdown;
