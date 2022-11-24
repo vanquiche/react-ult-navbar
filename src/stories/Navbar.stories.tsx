@@ -7,6 +7,19 @@ import { Nav } from '../components/index';
 export default {
   title: 'Navbar',
   component: Nav,
+  argTypes: {
+    text: {
+      control: { type: 'text' },
+    },
+  },
 } as ComponentMeta<typeof Nav>;
 
-export const Primary: ComponentStory<typeof Nav> = () => <Nav />;
+const Template: ComponentStory<typeof Nav> = ({ text }) => {
+  return <Nav text={text} />;
+};
+
+export const Primary: ComponentStory<typeof Nav> = Template.bind({});
+
+Primary.args = {
+  text: '',
+};
