@@ -1,22 +1,19 @@
-import { useRef } from 'react';
 import { Props, NavigationNode } from '../types';
+import { useMemo } from 'react';
 import SubMenu from '../SubMenu.tsx/SubMenu';
 import styles from './Nav.module.css';
 import '../global.css';
+import LinkItem from '../LinkItem/LinkItem';
+import ThemeContext, {
+  LightTheme,
+  DarkTheme,
+} from '../../Contexts/ThemeContext';
+import useResponsive from '../../Hooks/useResponsive';
 
-const DefaultLinkEl = ({ name }: { name: string }) => (
-  <a
-    style={{ display: 'inline', zIndex: 20 }}
-    href='#'
-    className={styles.navLink}
-  >
-    {name}
-  </a>
-);
+const Logo = () => <span>&#128512;</span>;
 
-const Logo = () => <span>L</span>;
-
-const Nav = ({ text, logoName, logoIcon = <Logo /> }: Props) => {
+const Nav = ({ logoName, theme, logoIcon = <Logo /> }: Props) => {
+  const isMobile = useResponsive(840);
   const navigationTree: NavigationNode[] = [
     {
       name: 'Link 1',
@@ -59,7 +56,7 @@ const Nav = ({ text, logoName, logoIcon = <Logo /> }: Props) => {
           href: '#',
         },
         {
-          name: 'Child Link 4',
+          name: 'A Very looooooooong link slkjsdfsdf',
           href: '#',
         },
         {
@@ -91,54 +88,42 @@ const Nav = ({ text, logoName, logoIcon = <Logo /> }: Props) => {
     },
   ];
 
+  const selectedTheme = useMemo(
+    () => (theme && theme === 'dark' ? DarkTheme : LightTheme),
+    [theme]
+  );
+
   return (
-    <>
-      <nav className={styles.container}>
+    <ThemeContext.Provider value={selectedTheme}>
+      <nav className={styles.container} style={selectedTheme.themes}>
+        <p>{isMobile ? 'mobile' : 'desktop'}</p>
         {(logoName || logoIcon) && (
-          <div
-            style={{
-              outline: '1px solid red',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-              padding: '0 10px',
-            }}
-          >
+          <div className={styles.logo}>
             {logoIcon}
-            <span style={{ marginLeft: '1rem' }}>{logoName}</span>
+            <span className={styles.logoTitle}>{logoName}</span>
           </div>
         )}
-        <ul
-          style={{
-            display: 'flex',
-            gap: '2.5rem',
-            outline: '1px solid green',
-            padding: '20px',
-            zIndex: 10,
-            overflowX: 'visible',
-          }}
-        >
+        <ul className={styles.navWrapper}>
           {navigationTree.map((node, i) => {
             return (
               <li
                 key={i}
-                style={{
-                  position: 'relative',
-                  whiteSpace: 'nowrap',
-                  zIndex: 10,
-                }}
+                className={styles.navItem}
+                style={selectedTheme.themes}
               >
-                {node.linkElement || <DefaultLinkEl name={node.name} />}
-                {/* CHILDREN - DROPDOWN */}
-                {/* {node.child && (
-                  <span style={{ display: 'inline', margin: '0 10px' }}>d</span>
-                )} */}
-                {node.dropdown && <SubMenu navigation={node.dropdown} />}
+                {node.linkElement ? (
+                  node.linkElement
+                ) : node.href ? (
+                  <LinkItem name={node.name} href={node.href} />
+                ) : node.dropdown ? (
+                  <SubMenu navigation={node.dropdown} name={node.name} />
+                ) : null}
               </li>
             );
           })}
         </ul>
       </nav>
-    </>
+    </ThemeContext.Provider>
   );
 };
 

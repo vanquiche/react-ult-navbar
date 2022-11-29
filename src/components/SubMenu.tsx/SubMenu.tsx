@@ -1,18 +1,22 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useContext, useState } from 'react';
+import ThemeContext from '../../Contexts/ThemeContext';
+import LinkItem from '../LinkItem/LinkItem';
 import { NavigationNode } from '../types';
+import styles from './SubMenu.module.css';
 
-const SubMenu = ({ navigation }: { navigation: NavigationNode[] }) => {
+const SubMenu = ({
+  navigation,
+  name,
+}: {
+  navigation: NavigationNode[];
+  name: string;
+}) => {
   const [showMenu, setShowMenu] = useState(false);
+  const { themes } = useContext(ThemeContext);
 
   const menuDisplayStyle: CSSProperties = {
     display: showMenu ? 'block' : 'none',
-    position: 'absolute',
-    top: '100%',
-    whiteSpace: 'nowrap',
-    outline: '1px solid green',
-    padding: '20px 10px',
-    zIndex: 20,
-    backgroundColor: 'lightblue',
+    ...themes,
   };
 
   const openMenu = () => {
@@ -25,37 +29,19 @@ const SubMenu = ({ navigation }: { navigation: NavigationNode[] }) => {
 
   return (
     <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        outline: '1px solid blue',
-        // display: 'block',
-        width: '100%',
-        height: '100%',
-        // zIndex: -1,
-      }}
+      className={styles.container}
       onMouseEnter={openMenu}
       onMouseLeave={closeMenu}
     >
-      <span
-        style={{
-          position: 'absolute',
-          top: '100%',
-          width: '25px',
-          right: '-25px',
-          transform: 'translateY(-100%)',
-          textAlign: 'center',
-        }}
-      >
-        d
-      </span>
+      <span className={styles.title}>{name} &#9660;</span>
 
       {
-        <ul style={menuDisplayStyle}>
+        <ul style={menuDisplayStyle} className={styles.dropdown}>
           {navigation.map((node, i) => {
-            return node.name ? (
-              <li key={i}>{node.name}</li>
+            return node.href ? (
+              <li key={i}>
+                <LinkItem name={node.name} href={node.href} />
+              </li>
             ) : (
               <li key={i}>{node.linkElement}</li>
             );
