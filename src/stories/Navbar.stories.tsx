@@ -6,17 +6,14 @@ export default {
   title: 'Navbar',
   component: Nav,
   argTypes: {
-    text: {
-      control: { type: 'text' },
-    },
     logoName: {
       control: { type: 'text' },
     },
   },
 } as ComponentMeta<typeof Nav>;
 
-const Template: ComponentStory<typeof Nav> = ({ text, logoName }) => {
-  return <Nav text={text} logoName={logoName} />;
+const Template: ComponentStory<typeof Nav> = ({ logoName, theme }) => {
+  return <Nav logoName={logoName} theme={theme} />;
 };
 
 // export const Default = (args: any) => <Template {...args}/>
@@ -28,7 +25,6 @@ const Template: ComponentStory<typeof Nav> = ({ text, logoName }) => {
 export const Primary: ComponentStory<typeof Nav> = Template.bind({});
 
 Primary.args = {
-  text: '',
   logoName: '',
   // logoIcon: <Logo />,
 };
