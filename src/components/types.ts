@@ -1,7 +1,9 @@
+import { CSSProperties } from 'react';
+
 export interface Props {
-  text?: string;
   logoName?: string;
   logoIcon?: JSX.Element;
+  theme?: Themes;
 }
 
 export interface SubMenuProps {
@@ -35,3 +37,19 @@ export type NavigationNode =
   | NavigationLink
   | NavigationWrapper
   | NavigationDropdown;
+
+export interface ThemeType {
+  themes: {
+    backgroundColor: string;
+    color: string;
+  };
+}
+
+export interface ThemeContextType {
+  theme: ThemeType;
+}
+
+export enum Themes {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
