@@ -1,8 +1,7 @@
-import { CSSProperties } from 'react';
-
 export interface Props {
   logoName?: string;
   logoIcon?: JSX.Element;
+  logoLink?: string;
   theme?: Themes;
 }
 
