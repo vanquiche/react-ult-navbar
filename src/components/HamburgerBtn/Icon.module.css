@@ -1,0 +1,103 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  width: 25px;
+  /* outline: '2px solid red'; */
+  /* background-color: red; */
+}
+
+.bar {
+  height: 8%;
+  width: 90%;
+  background-color: black;
+  display: block;
+  position: absolute;
+  transform-origin: center;
+  transform: translateY(-50%);
+}
+
+.bottom {
+  bottom: 25%;
+}
+
+.top {
+  top: 25%;
+}
+
+.animateTopToClose {
+  animation: topBarClose 175ms ease-out forwards;
+}
+
+.animateTopToOpen {
+  animation: topBarOpen 175ms ease-out forwards;
+}
+
+.animateBottomToClose {
+  animation: bottomBarClose 175ms ease-out forwards;
+}
+
+.animateBottomToOpen {
+  animation: bottomBarOpen 175ms ease-out forwards;
+}
+
+@keyframes topBarClose {
+  0% {
+    top: 25%;
+    transform: rotate(0);
+  }
+  50% {
+    top: 46%;
+    transform: rotate(0);
+  }
+  100% {
+    top: 46%;
+    transform: rotate(135deg);
+  }
+}
+
+@keyframes topBarOpen {
+  0% {
+    top: 46%;
+    transform: rotate(135deg);
+  }
+  50% {
+    top: 46%;
+    transform: rotate(0deg);
+  }
+  100% {
+    top: 25%;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes bottomBarClose {
+  0% {
+    bottom: 25%;
+    transform: rotate(0);
+  }
+  50% {
+    bottom: 46%;
+    transform: rotate(0);
+  }
+  100% {
+    bottom: 46%;
+    transform: rotate(-135deg);
+  }
+}
+
+@keyframes bottomBarOpen {
+  0% {
+    bottom: 46%;
+    transform: rotate(-135deg);
+  }
+  50% {
+    bottom: 46%;
+    transform: rotate(0deg);
+  }
+  100% {
+    bottom: 25%;
+    transform: rotate(0deg);
+  }
+}
