@@ -1,0 +1,8 @@
+.container {
+  white-space: nowrap;
+  display: inline-block;
+  /* align-self: center; */
+}
+.title {
+  margin-left: 6px;
+}
