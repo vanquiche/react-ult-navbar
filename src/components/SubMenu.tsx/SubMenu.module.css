@@ -3,22 +3,39 @@
   height: 100%;
 }
 
-.container > .dropdown * {
-  padding: 6px 8px;
+/* .container > .dropdown * {
 }
 
 .container > .dropdown *:hover {
-}
+} */
 
 .dropdown {
+  z-index: 20;
+  max-width: 800px;
+  /* outline: 1px solid blueviolet; */
+  overflow: hidden;
+}
+
+.posAbsolute {
   position: absolute;
   top: 100%;
-  white-space: nowrap;
-  z-index: 20;
-  max-width: 600px;
-  overflow-x: hidden;
+}
+
+.posRelative {
+  position: relative;
 }
 
 .title {
   cursor: default;
 }
+
+.linkContainer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px;
+}
+
+/* .linkContainer:hover {
+  color: darkgreen;
+  background-color: lightblue;
+} */
