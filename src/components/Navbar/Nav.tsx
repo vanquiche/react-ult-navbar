@@ -1,115 +1,164 @@
+import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+
+// TYPES
 import { Props, NavigationNode } from '../types';
-import { useMemo } from 'react';
-import SubMenu from '../SubMenu.tsx/SubMenu';
-import styles from './Nav.module.css';
-import '../global.css';
-import LinkItem from '../LinkItem/LinkItem';
+
+// CONTEXTS
 import ThemeContext, {
   LightTheme,
   DarkTheme,
 } from '../../Contexts/ThemeContext';
+
+// COMPONENTS
+import LinkItem from '../LinkItem/LinkItem';
+import SubMenu from '../SubMenu.tsx/SubMenu';
 import useResponsive from '../../Hooks/useResponsive';
+import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
+import { MOBILE_QUERY, MOBILE_NAV_HEIGHT } from '../../VALUES';
+
+// STYLESHEET
+import styles from './Nav.module.css';
+import '../global.css';
+import LogoWrapper from '../LogoWrapper/LogoWrapper';
 
 const Logo = () => <span>&#128512;</span>;
 
-const Nav = ({ logoName, theme, logoIcon = <Logo /> }: Props) => {
-  const isMobile = useResponsive(840);
-  const navigationTree: NavigationNode[] = [
-    {
-      name: 'Link 1',
-      href: '#',
-    },
-    {
-      name: 'Link 2',
-      dropdown: [
-        {
-          name: 'Child Link 1',
-          href: '#',
-        },
-        {
-          name: 'Child Link 2',
-          href: '#',
-        },
-      ],
-    },
-    {
-      name: 'Link 3',
-      href: '#',
-    },
-    {
-      name: 'Link 4',
-      href: '#',
-    },
-    {
-      name: 'Link 5',
-      dropdown: [
-        {
-          name: 'Child Link 1',
-          href: '#',
-        },
-        {
-          name: 'Child Link 2',
-          href: '#',
-        },
-        {
-          name: 'Child Link 3',
-          href: '#',
-        },
-        {
-          name: 'A Very looooooooong link slkjsdfsdf',
-          href: '#',
-        },
-        {
-          name: 'Child Link 5',
-          href: '#',
-        },
-      ],
-    },
-    {
-      name: 'Link 6',
-      href: '#',
-    },
-    {
-      name: 'Link 7',
-      href: '#',
-    },
-    {
-      name: 'Link 8',
-      dropdown: [
-        {
-          name: 'Child Link 1',
-          href: '#',
-        },
-        {
-          name: 'Child Link 2',
-          href: '#',
-        },
-      ],
-    },
-  ];
+const navigationTree: NavigationNode[] = [
+  {
+    name: 'Link 1',
+    href: '#',
+  },
+  {
+    name: 'Link 2',
+    dropdown: [
+      {
+        name: 'Child Link 1',
+        href: '#',
+      },
+      {
+        name: 'Child Link 2',
+        href: '#',
+      },
+    ],
+  },
+  {
+    name: 'Link 3',
+    href: '#',
+  },
+  {
+    name: 'Link 4',
+    href: '#',
+  },
+  {
+    name: 'Link 5',
+    dropdown: [
+      {
+        name: 'Child Link 1',
+        href: '#',
+      },
+      {
+        name: 'Child Link 2',
+        href: '#',
+      },
+      {
+        name: 'Child Link 3',
+        href: '#',
+      },
+      {
+        name: 'A Very looooooooong link slkjsdfsdf',
+        href: '#',
+      },
+      {
+        name: 'Child Link 5',
+        href: '#',
+      },
+    ],
+  },
+  {
+    name: 'Link 6',
+    href: '#',
+  },
+  {
+    name: 'Link 7',
+    href: '#',
+  },
+  {
+    name: 'Link 8',
+    dropdown: [
+      {
+        name: 'Child Link 1',
+        href: '#',
+      },
+      {
+        name: 'Child Link 2',
+        href: '#',
+      },
+    ],
+  },
+];
 
-  const selectedTheme = useMemo(
+const closedNavHeight = MOBILE_NAV_HEIGHT;
+
+const Nav = ({ logoName, theme, logoIcon = <Logo />, logoLink }: Props) => {
+  const [expandMenu, setExpandMenu] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null);
+
+  const isMobile = useResponsive(MOBILE_QUERY);
+
+  const userTheme = useMemo(
     () => (theme && theme === 'dark' ? DarkTheme : LightTheme),
     [theme]
   );
 
+  const navAnimationStyles: CSSProperties = isMobile
+    ? {
+        height: expandMenu ? '100%' : `${closedNavHeight}px`,
+        overflow: 'hidden',
+      }
+    : { alignItems: 'center' };
+
+  function toggleMobileMenu() {
+    setExpandMenu((prev) => !prev);
+  }
+
+  // close menu on window size transition
+  useEffect(() => {
+    return () => setExpandMenu(false);
+  }, [isMobile]);
+
   return (
-    <ThemeContext.Provider value={selectedTheme}>
-      <nav className={styles.container} style={selectedTheme.themes}>
-        <p>{isMobile ? 'mobile' : 'desktop'}</p>
-        {(logoName || logoIcon) && (
-          <div className={styles.logo}>
-            {logoIcon}
-            <span className={styles.logoTitle}>{logoName}</span>
-          </div>
+    <ThemeContext.Provider value={userTheme}>
+      <nav
+        className={`${styles.container} ${
+          isMobile ? styles.flexCol : styles.flexRow
+        }`}
+        style={{ ...userTheme.themes, ...navAnimationStyles }}
+        ref={navRef}
+      >
+        {isMobile && (
+          <HamburgerBtn onClick={toggleMobileMenu} open={expandMenu} />
         )}
-        <ul className={styles.navWrapper}>
+
+        {/* NAVIGATION */}
+        <ul
+          className={`${styles.navWrapper} ${
+            isMobile ? styles.flexCol : styles.flexRow
+          }`}
+        >
+          {(logoName || logoIcon) && (
+            <LogoWrapper title={logoName} href={logoLink}>
+              {logoIcon}
+            </LogoWrapper>
+          )}
+
           {navigationTree.map((node, i) => {
             return (
               <li
                 key={i}
                 className={styles.navItem}
-                style={selectedTheme.themes}
+                style={{
+                  ...userTheme.themes,
+                }}
               >
                 {node.linkElement ? (
                   node.linkElement
