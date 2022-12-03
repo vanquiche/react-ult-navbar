@@ -1,5 +1,6 @@
 .container {
-  outline: 2px solid purple;
+  /* outline: 2px solid purple; */
+  /* position: absolute; */
   z-index: 0;
   display: flex;
   flex-direction: row;
@@ -11,7 +12,7 @@
 .navWrapper {
   display: flex;
   gap: 25px;
-  z-index: 10;
+  /* flex-wrap: wrap; */
 }
 
 .flexRow {
@@ -24,6 +25,7 @@
 
 .navItem {
   position: relative;
-  white-space: nowrap;
-  z-index: 10;
+  /* margin: 10px; */
+  /* display: block;
+  white-space: nowrap; */
 }

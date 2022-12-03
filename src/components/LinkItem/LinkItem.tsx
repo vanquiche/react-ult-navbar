@@ -2,9 +2,9 @@ import styles from './LinkItem.module.css';
 
 const LinkItem = ({ name, href }: { name: string; href: string }) => {
   return (
-    <div>
+    <div className={styles.container}>
       <a
-        className={styles.container}
+        className={styles.link}
         href={href}
         style={{ textOverflow: 'ellipsis' }}
       >

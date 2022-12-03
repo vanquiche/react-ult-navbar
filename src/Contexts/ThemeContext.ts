@@ -2,11 +2,11 @@ import { createContext } from 'react';
 import { ThemeType } from '../components/types';
 
 export const DarkTheme: ThemeType = {
-  themes: { backgroundColor: 'black', color: 'lightgrey' },
+  themes: { backgroundColor: '#343a40', color: 'lightgrey' },
 };
 
 export const LightTheme: ThemeType = {
-  themes: { backgroundColor: 'lightgrey', color: 'black' },
+  themes: { backgroundColor: '#fffcf2', color: 'black' },
 };
 
 const defaultTheme = {
