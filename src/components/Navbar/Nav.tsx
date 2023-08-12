@@ -10,55 +10,52 @@ import ThemeContext, {
 } from '../../Contexts/ThemeContext';
 
 // COMPONENTS
-import LinkItem from '../LinkItem/LinkItem';
-import SubMenu from '../SubMenu.tsx/SubMenu';
 import useResponsive from '../../Hooks/useResponsive';
-import HamburgerBtn from '../HamburgerBtn/HamburgerBtn';
 import { MOBILE_QUERY, MOBILE_NAV_HEIGHT } from '../../VALUES';
 
 // STYLESHEET
 import styles from './Nav.module.css';
 import '../global.css';
-import LogoWrapper from '../LogoWrapper/LogoWrapper';
-import DesktopMenu from '../DesktopMenu/DesktopMenu';
 
 const Logo = () => <span>&#128512;</span>;
-
+const CustomLink = ({ name, href }: { name: string; href: string }) => {
+  return <a href={href}>{name}</a>;
+};
 const navigationTree: NavigationNode[] = [
   {
     name: 'Link 1',
-    href: '#',
+    linkElement: <CustomLink name='Link1' href='' />,
   },
   {
     name: 'Link 2',
     dropdown: [
       {
-        name: 'Child Link 1a',
-        href: '#',
+        name: 'Child Link 2a',
+        linkElement: <CustomLink name='Child Link 2a' href='' />,
       },
       {
-        name: 'Child Link 2b',
+        name: 'Child Link 2a-1',
         dropdown: [
           {
-            name: 'Child Link 1',
-            href: '#',
+            name: 'Child Link a1',
+            linkElement: <CustomLink name='Child Link a1' href='' />,
           },
           {
-            name: 'Child Link 2',
+            name: 'Child Link a2',
             dropdown: [
               {
                 name: 'Another One',
-                href: '#',
+                linkElement: <CustomLink name='Child Link a2-1' href='' />,
               },
               {
                 name: 'Another Two',
-                href: '#',
+                linkElement: <CustomLink name='Child Link a2-2' href='' />,
               },
             ],
           },
           {
-            name: 'Child Link 3',
-            href: '#',
+            name: 'Child Link a3',
+            linkElement: <CustomLink name='Link Link a3' href='' />,
           },
         ],
       },
@@ -66,78 +63,71 @@ const navigationTree: NavigationNode[] = [
   },
   {
     name: 'Link 3',
-    href: '#',
+    linkElement: <CustomLink name='Link 3' href='' />,
   },
   {
     name: 'Link 4',
-    href: '#',
+    linkElement: <CustomLink name='Link 4' href='' />,
   },
   {
     name: 'Link 5',
     dropdown: [
       {
         name: 'Child Link 1',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 1a' href='' />,
       },
       {
         name: 'Child Link 2',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 2a' href='' />,
       },
       {
         name: 'Child Link 3',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 3a' href='' />,
       },
       {
         name: 'A Very looooooooong link slkjsdfsdf',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 4a' href='' />,
       },
       {
         name: 'Child Link 5',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 5a' href='' />,
       },
     ],
   },
   {
     name: 'Link 6',
-    href: '#',
+    linkElement: <CustomLink name='Link 6' href='' />,
   },
   {
     name: 'Link 7',
-    href: '#',
+    linkElement: <CustomLink name='Link 7' href='' />,
   },
   {
     name: 'Link 8',
     dropdown: [
       {
         name: 'Child Link 1',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 1c' href='' />,
       },
       {
         name: 'Child Link 2',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 2c' href='' />,
       },
       {
         name: 'Child Link 3',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 3c' href='' />,
       },
       {
         name: 'A Very looooooooong',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 4c' href='' />,
       },
       {
         name: 'Child Link 5',
-        href: '#',
+        linkElement: <CustomLink name='Child Link 5c' href='' />,
       },
     ],
   },
 ];
-
-const closedNavHeight = MOBILE_NAV_HEIGHT;
-
-// TODOS
-// 1. Add text wrap for long links
-// 2. Enable scrolling when number of nav links
-//    exceeds width of navbar
 
 const Nav = ({ logoName, theme, logoIcon = <Logo />, logoLink }: Props) => {
   const isMobile = useResponsive(MOBILE_QUERY);
@@ -148,12 +138,12 @@ const Nav = ({ logoName, theme, logoIcon = <Logo />, logoLink }: Props) => {
   );
 
   // close menu on window size transition
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   return (
     <ThemeContext.Provider value={userTheme}>
       <header className={styles.container} style={{ ...userTheme.themes }}>
-        <DesktopMenu navigation={navigationTree} />
+        <p>Hello World</p>
       </header>
     </ThemeContext.Provider>
   );

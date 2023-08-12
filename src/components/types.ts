@@ -10,32 +10,20 @@ export interface SubMenuProps {
 }
 
 export interface NavNodeBase {
-  icon?: JSX.Element;
   name: string;
 }
 
 export interface NavigationLink extends NavNodeBase {
-  href: string;
-  dropdown?: never;
-  linkElement?: never;
-}
-
-export interface NavigationWrapper extends NavNodeBase {
-  href?: never;
   dropdown?: never;
   linkElement: JSX.Element;
 }
 
 export interface NavigationDropdown extends NavNodeBase {
-  href?: never;
   linkElement?: never;
   dropdown: NavigationNode[];
 }
 
-export type NavigationNode =
-  | NavigationLink
-  | NavigationWrapper
-  | NavigationDropdown;
+export type NavigationNode = NavigationLink | NavigationDropdown;
 
 export interface ThemeType {
   themes: {
