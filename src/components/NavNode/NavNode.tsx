@@ -7,30 +7,44 @@ const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
   const submenuRef = node.submenu ? useRef<HTMLUListElement>(null) : undefined;
   const menuitemRef = useRef<HTMLDivElement>(null);
   const menuId = node.title.replace(' ', '-');
-  // function handleMouseEnter() {
-  //   setShowMenu(true);
-  // }
 
-  // function handleMouseLeave() {
-  //   setShowMenu(false);
-  // }
   async function toggleMenu() {
-    const h = new Promise((res) => {
+    let menuOpened: boolean | null = null;
+    setShowMenu((state) => {
+      menuOpened = state;
+      return !state;
+    });
+
+    // wait for submenu and menuitems to render in DOM
+    const s = new Promise<React.RefObject<HTMLUListElement>>((res, rej) => {
       setTimeout(() => {
-        res(submenuRef?.current?.offsetHeight);
+        if (submenuRef) {
+          res(submenuRef);
+        } else rej(null);
       }, 100);
     });
-    setShowMenu((state) => !state);
-    if (submenuRef && submenuRef.current) {
-      if (menuitemRef && menuitemRef.current) {
-        // menuitemRef.current.style.paddingBottom = '100px';
-        // console.log(await h);
-        const level = menuitemRef.current.getAttribute('data-menu-level');
+
+    const m = new Promise<React.RefObject<HTMLDivElement>>((res, rej) => {
+      setTimeout(() => {
+        if (menuitemRef) {
+          res(menuitemRef);
+        } else rej(null);
+      }, 100);
+    });
+
+    Promise.all([s, m]).then(([sRef, mRef]) => {
+      const height = sRef?.current?.offsetHeight;
+      if (mRef && mRef.current) {
+        const level = mRef.current.getAttribute('data-menu-level');
         if (level && +level > 0) {
-          menuitemRef.current.style.paddingBottom = (await h) + 'px';
+          if (menuOpened === false) {
+            mRef.current.style.paddingBottom = height + 'px';
+          } else {
+            mRef.current.style.paddingBottom = '0';
+          }
         }
       }
-    }
+    });
   }
 
   return (
@@ -40,8 +54,11 @@ const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
       role='menuitem'
       aria-haspopup={node.submenu ? true : false}
       style={{
-        outline: '1px solid red',
-        transition: 'padding-bottom 250ms ease',
+        // outline: '1px solid red',
+        transition: 'padding-bottom 150ms ease',
+        overflow: level > 1 ? 'hidden' : '',
+        zIndex: 10,
+        position: 'relative',
       }}
       ref={menuitemRef}
       data-menu-level={level}
@@ -50,7 +67,9 @@ const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          margin: '8px 0',
+          padding: '8px 0',
+          position: 'relative',
+          zIndex: 100,
         }}
       >
         {!node.void ? (
@@ -64,17 +83,18 @@ const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
             aria-label='dropdown caret'
             aria-controls={menuId}
             aria-expanded={showMenu ? true : false}
+            style={{ marginLeft: '20px' }}
           >
             &larr;
           </button>
         )}
       </p>
-      {node.submenu && (
+      {node.submenu && showMenu && (
         <Submenu
           id={menuId}
+          ref={submenuRef}
           nodes={node.submenu}
           isVisible={showMenu}
-          ref={submenuRef}
           level={level + 1}
         />
       )}

@@ -21,7 +21,11 @@ const navigationTree: NavNodeType[] = [
   {
     link: (props) => <a {...props}>{props.children}</a>,
     title: 'Hello World',
-    linkAttribute: { href: 'http://google.com', target: '_blank' },
+    linkAttribute: {
+      href: 'http://google.com',
+      target: '_blank',
+      rel: 'noopener',
+    },
   },
   {
     link: (props) => <a {...props}>{props.children}</a>,
@@ -49,17 +53,29 @@ const navigationTree: NavNodeType[] = [
             title: 'Sub menu link 2',
             linkAttribute: { href: 'http://google.com', target: '_blank' },
           },
-          {
-            link: (props) => <a {...props}>{props.children}</a>,
-            title: 'Sub menu link 3',
-            linkAttribute: { href: 'http://google.com', target: '_blank' },
-          },
         ],
       },
       {
         link: (props) => <a {...props}>{props.children}</a>,
         title: 'Sub menu link 2',
         linkAttribute: { href: 'http://google.com', target: '_blank' },
+      },
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 3',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+        submenu: [
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 1',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 2',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+        ],
       },
     ],
   },

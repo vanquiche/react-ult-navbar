@@ -3,6 +3,8 @@ import NavNode from '../NavNode/NavNode';
 import { NavNodeType } from '../types';
 import { forwardRef } from 'react';
 
+import './Submenu.css';
+
 const Submenu = forwardRef(
   (
     {
@@ -19,10 +21,9 @@ const Submenu = forwardRef(
     ref: ForwardedRef<HTMLUListElement>
   ) => {
     const styles: CSSProperties = {
-      marginLeft: '12px',
-      visibility: isVisible ? 'visible' : 'hidden',
       height: isVisible ? 'auto' : '0',
-      position: 'absolute',
+      border: level === 1 ? '1px solid black' : '',
+      backgroundColor: 'aquamarine',
     };
 
     if (nodes.length === 0) return null;
@@ -30,13 +31,14 @@ const Submenu = forwardRef(
     return (
       <ul
         id={id}
+        ref={ref}
         style={styles}
+        className={`submenu ${level > 1 ? 'long-fadeIn' : 'short-fadeIn'}`}
         aria-hidden={isVisible ? false : true}
         role='menubar'
-        ref={ref}
       >
         {nodes.map((n, i) => (
-          <li key={Math.random()}>
+          <li key={Math.random()} className='submenu__item'>
             <NavNode node={n} level={level} />
           </li>
         ))}
