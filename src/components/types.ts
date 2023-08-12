@@ -1,29 +1,20 @@
+import React, { FC } from 'react';
+
 export interface Props {
   logoName?: string;
   logoIcon?: JSX.Element;
   logoLink?: string;
   theme?: Themes;
+  label?: string;
 }
 
-export interface SubMenuProps {
-  navigation: NavigationNode;
+export interface NavNodeType {
+  link: FC<{ children: React.ReactNode }>;
+  submenu?: NavNodeType[];
+  void?: boolean;
+  title: string;
+  linkAttribute: object;
 }
-
-export interface NavNodeBase {
-  name: string;
-}
-
-export interface NavigationLink extends NavNodeBase {
-  dropdown?: never;
-  linkElement: JSX.Element;
-}
-
-export interface NavigationDropdown extends NavNodeBase {
-  linkElement?: never;
-  dropdown: NavigationNode[];
-}
-
-export type NavigationNode = NavigationLink | NavigationDropdown;
 
 export interface ThemeType {
   themes: {

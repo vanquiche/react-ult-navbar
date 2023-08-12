@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 
 // TYPES
-import { Props, NavigationNode } from '../types';
+import { Props, NavNodeType } from '../types';
 
 // CONTEXTS
 import ThemeContext, {
@@ -9,141 +9,94 @@ import ThemeContext, {
   DarkTheme,
 } from '../../Contexts/ThemeContext';
 
-// COMPONENTS
-import useResponsive from '../../Hooks/useResponsive';
-import { MOBILE_QUERY, MOBILE_NAV_HEIGHT } from '../../VALUES';
-
 // STYLESHEET
 import styles from './Nav.module.css';
 import '../global.css';
+import NavNode from '../NavNode/NavNode';
+import Submenu from '../Submenu/Submenu';
 
 const Logo = () => <span>&#128512;</span>;
-const CustomLink = ({ name, href }: { name: string; href: string }) => {
-  return <a href={href}>{name}</a>;
-};
-const navigationTree: NavigationNode[] = [
+
+const navigationTree: NavNodeType[] = [
   {
-    name: 'Link 1',
-    linkElement: <CustomLink name='Link1' href='' />,
+    link: (props) => <a {...props}>{props.children}</a>,
+    title: 'Hello World',
+    linkAttribute: { href: 'http://google.com', target: '_blank' },
   },
   {
-    name: 'Link 2',
-    dropdown: [
+    link: (props) => <a {...props}>{props.children}</a>,
+    title: 'Second Link',
+    linkAttribute: {},
+    void: true,
+    submenu: [
       {
-        name: 'Child Link 2a',
-        linkElement: <CustomLink name='Child Link 2a' href='' />,
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 1',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
       },
       {
-        name: 'Child Link 2a-1',
-        dropdown: [
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 3',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+        submenu: [
           {
-            name: 'Child Link a1',
-            linkElement: <CustomLink name='Child Link a1' href='' />,
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 1',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
           },
           {
-            name: 'Child Link a2',
-            dropdown: [
-              {
-                name: 'Another One',
-                linkElement: <CustomLink name='Child Link a2-1' href='' />,
-              },
-              {
-                name: 'Another Two',
-                linkElement: <CustomLink name='Child Link a2-2' href='' />,
-              },
-            ],
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 2',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
           },
           {
-            name: 'Child Link a3',
-            linkElement: <CustomLink name='Link Link a3' href='' />,
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 3',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
           },
         ],
       },
-    ],
-  },
-  {
-    name: 'Link 3',
-    linkElement: <CustomLink name='Link 3' href='' />,
-  },
-  {
-    name: 'Link 4',
-    linkElement: <CustomLink name='Link 4' href='' />,
-  },
-  {
-    name: 'Link 5',
-    dropdown: [
       {
-        name: 'Child Link 1',
-        linkElement: <CustomLink name='Child Link 1a' href='' />,
-      },
-      {
-        name: 'Child Link 2',
-        linkElement: <CustomLink name='Child Link 2a' href='' />,
-      },
-      {
-        name: 'Child Link 3',
-        linkElement: <CustomLink name='Child Link 3a' href='' />,
-      },
-      {
-        name: 'A Very looooooooong link slkjsdfsdf',
-        linkElement: <CustomLink name='Child Link 4a' href='' />,
-      },
-      {
-        name: 'Child Link 5',
-        linkElement: <CustomLink name='Child Link 5a' href='' />,
-      },
-    ],
-  },
-  {
-    name: 'Link 6',
-    linkElement: <CustomLink name='Link 6' href='' />,
-  },
-  {
-    name: 'Link 7',
-    linkElement: <CustomLink name='Link 7' href='' />,
-  },
-  {
-    name: 'Link 8',
-    dropdown: [
-      {
-        name: 'Child Link 1',
-        linkElement: <CustomLink name='Child Link 1c' href='' />,
-      },
-      {
-        name: 'Child Link 2',
-        linkElement: <CustomLink name='Child Link 2c' href='' />,
-      },
-      {
-        name: 'Child Link 3',
-        linkElement: <CustomLink name='Child Link 3c' href='' />,
-      },
-      {
-        name: 'A Very looooooooong',
-        linkElement: <CustomLink name='Child Link 4c' href='' />,
-      },
-      {
-        name: 'Child Link 5',
-        linkElement: <CustomLink name='Child Link 5c' href='' />,
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 2',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
       },
     ],
   },
 ];
 
-const Nav = ({ logoName, theme, logoIcon = <Logo />, logoLink }: Props) => {
-  const isMobile = useResponsive(MOBILE_QUERY);
-
+const Nav = ({
+  logoName,
+  theme,
+  logoIcon = <Logo />,
+  logoLink,
+  label,
+}: Props) => {
   const userTheme = useMemo(
     () => (theme && theme === 'dark' ? DarkTheme : LightTheme),
     [theme]
   );
 
-  // close menu on window size transition
-  // useEffect(() => {}, []);
-
   return (
     <ThemeContext.Provider value={userTheme}>
       <header className={styles.container} style={{ ...userTheme.themes }}>
-        <p>Hello World</p>
+        <nav aria-label={label || 'main-navigation'}>
+          {/* when able to check screen dimension change aria attributes */}
+          <ul
+            role='menubar'
+            aria-haspopup={false}
+            aria-expanded={false}
+            style={{ display: 'flex', columnGap: '16px' }}
+          >
+            {navigationTree.map((node, i) => {
+              return (
+                <li key={i}>
+                  <NavNode node={node} level={0} />
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </header>
     </ThemeContext.Provider>
   );
