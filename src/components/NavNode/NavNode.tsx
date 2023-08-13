@@ -2,18 +2,35 @@ import Submenu from '../Submenu/Submenu';
 import { NavNodeType } from '../types';
 import React, { useState, useRef } from 'react';
 
-const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
+const NavNode = ({ node, level }: Props) => {
+  const { topLevelMenus, setTopLevelMenus } = useContext(TopLevelMenuContext);
   const [showMenu, setShowMenu] = useState(false);
   const submenuRef = node.submenu ? useRef<HTMLUListElement>(null) : undefined;
   const menuitemRef = useRef<HTMLDivElement>(null);
   const menuId = node.title.replace(' ', '-');
 
   async function toggleMenu() {
-    let menuOpened: boolean | null = null;
-    setShowMenu((state) => {
-      menuOpened = state;
-      return !state;
-    });
+    // for top-level menu
+    if (menuIsTopLevel) {
+      setTopLevelMenus((menus) => {
+        const updatedMenu = { ...menus };
+        for (const prop in updatedMenu) {
+          if (prop !== node.title) {
+            updatedMenu[prop] = false;
+          } else {
+            updatedMenu[prop] = !updatedMenu[prop];
+          }
+        }
+        return updatedMenu;
+      });
+    }
+    // not a top-level menu
+    else {
+      let currentMenuState: boolean | null = null;
+      setShowMenu((state) => {
+        currentMenuState = state;
+        return !state;
+      });
 
     // wait for submenu and menuitems to render in DOM
     const s = new Promise<React.RefObject<HTMLUListElement>>((res, rej) => {
@@ -89,15 +106,16 @@ const NavNode = ({ node, level }: { node: NavNodeType; level: number }) => {
           </button>
         )}
       </p>
-      {node.submenu && showMenu && (
-        <Submenu
-          id={menuId}
-          ref={submenuRef}
-          nodes={node.submenu}
-          isVisible={showMenu}
-          level={level + 1}
-        />
-      )}
+      {node.submenu &&
+        (menuIsTopLevel ? topLevelMenus[node.title] : showMenu) && (
+          <Submenu
+            id={menuId}
+            ref={submenuRef}
+            nodes={node.submenu}
+            isVisible={menuIsTopLevel ? topLevelMenus[node.title] : showMenu}
+            level={level + 1}
+          />
+        )}
     </div>
   );
 };
