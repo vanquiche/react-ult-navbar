@@ -1,7 +1,14 @@
 .submenu {
-  padding: 0 0.75rem;
   position: absolute;
   width: max-content;
+}
+
+.child-menu {
+  width: 100%;
+}
+
+.submenu--fade {
+  transition: opacity 250ms ease;
 }
 
 .short-fadeIn {

@@ -1,0 +1,19 @@
+.menu-item {
+  position: relative;
+  transition: padding-bottom 75ms ease;
+}
+
+.menu-item__link {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7em 1.1em;
+  transition: background-color 250ms ease;
+}
+
+.menu-item__link:not(.top-level):hover {
+  background-color: blue;
+}
+
+.menu-item__link-caret {
+  margin-left: 1.1em;
+}
