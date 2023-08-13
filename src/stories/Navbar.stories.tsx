@@ -1,4 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { NavNodeType } from '../components/types';
 
 import { Nav } from '../components/index';
 
@@ -12,8 +13,106 @@ export default {
   },
 } as ComponentMeta<typeof Nav>;
 
+const navigationTree: NavNodeType[] = [
+  {
+    link: (props) => <a {...props}>{props.children}</a>,
+    title: 'Hello World',
+    linkAttribute: {
+      href: 'http://google.com',
+      target: '_blank',
+      rel: 'noopener',
+    },
+  },
+  {
+    link: (props) => <a {...props}>{props.children}</a>,
+    title: 'Second Link',
+    linkAttribute: {},
+    void: true,
+    submenu: [
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 1',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+      },
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 3',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+        submenu: [
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 1',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 2',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+        ],
+      },
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 2',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+      },
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 3',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+        submenu: [
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 1',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 2',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    link: (props) => <a {...props}>{props.children}</a>,
+    title: 'About',
+    linkAttribute: {
+      href: 'http://google.com',
+      target: '_blank',
+    },
+    submenu: [
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 2',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+      },
+      {
+        link: (props) => <a {...props}>{props.children}</a>,
+        title: 'Sub menu link 3',
+        linkAttribute: { href: 'http://google.com', target: '_blank' },
+        submenu: [
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 1',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+          {
+            link: (props) => <a {...props}>{props.children}</a>,
+            title: 'Sub menu link 2',
+            linkAttribute: { href: 'http://google.com', target: '_blank' },
+          },
+        ],
+      },
+    ],
+  },
+];
+
 const Template: ComponentStory<typeof Nav> = ({ logoName, theme }) => {
-  return <Nav logoName={logoName} theme={theme} />;
+  return (
+    <Nav logoName={logoName} theme={theme} navigationTree={navigationTree} />
+  );
 };
 
 // export const Default = (args: any) => <Template {...args}/>
