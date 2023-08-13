@@ -1,17 +1,15 @@
-import { Dispatch, SetStateAction, createContext } from 'react';
+import { Dispatch, createContext } from 'react';
+import { ReducerAction } from '../Reducers/topLevelMenuReducers';
 
-type menus = Record<string, boolean>;
-
-interface TopLevelMenuContextType {
-  topLevelMenus: menus;
-  setTopLevelMenus: Dispatch<SetStateAction<menus>>;
+interface DefaultContextType {
+  topLevelMenus: Record<string, boolean>;
+  setTopLevelMenus: Dispatch<ReducerAction>;
 }
-
-const defaultContext: TopLevelMenuContextType = {
+const defaultContext = {
   topLevelMenus: {},
-  setTopLevelMenus: () => {},
+  setTopLevelMenus: () => null,
 };
 
-const TopLevelMenuContext = createContext(defaultContext);
+const TopLevelMenuContext = createContext<DefaultContextType>(defaultContext);
 
 export default TopLevelMenuContext;

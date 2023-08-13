@@ -2,6 +2,7 @@ import TopLevelMenuContext from '../../Contexts/TopLevelMenuContext';
 import Submenu from '../Submenu/Submenu';
 import { NavNodeType } from '../types';
 import { useState, useRef, useContext, RefObject, CSSProperties } from 'react';
+import { ActionTypes } from '../../Reducers/topLevelMenuReducers';
 
 import './NavNode.css';
 
@@ -17,75 +18,72 @@ const NavNode = ({ node, level }: Props) => {
   const submenuRef = node.submenu ? useRef<HTMLUListElement>(null) : undefined;
   const menuitemRef = useRef<HTMLDivElement>(null);
   const menuId = node.title.replace(' ', '-').toLowerCase();
-
   const menuIsTopLevel = level === 0;
 
   const styles: CSSProperties = {
     overflow: level > 1 ? 'hidden' : '',
   };
 
-  async function toggleMenu() {
-    // for top-level menu
-    if (menuIsTopLevel) {
-      setTopLevelMenus((menus) => {
-        const updatedMenu = { ...menus };
-        for (const prop in updatedMenu) {
-          if (prop !== node.title) {
-            updatedMenu[prop] = false;
-          } else {
-            updatedMenu[prop] = !updatedMenu[prop];
-          }
-        }
-        return updatedMenu;
-      });
-    }
-    // not a top-level menu
-    else {
-      let currentMenuState: boolean | null = null;
-      setShowMenu((state) => {
-        currentMenuState = state;
-        return !state;
-      });
+  function openSubmenu() {
+    let currentMenuState: boolean | null = null;
+    setShowMenu((state) => {
+      // get current menu state to know if menu is currently opened
+      currentMenuState = state;
+      return !state;
+    });
 
-      // wait for submenu and menuitems to render in DOM
-      const menuItems = new Promise<RefObject<HTMLUListElement>>((res, rej) => {
-        setTimeout(() => {
-          if (submenuRef) {
-            res(submenuRef);
-          } else rej(null);
-        }, 100);
-      });
+    // wait for submenu and menuitems to render in DOM
+    const menuItems = new Promise<RefObject<HTMLUListElement>>((res, rej) => {
+      setTimeout(() => {
+        if (submenuRef) {
+          res(submenuRef);
+        } else rej(null);
+      }, 100);
+    });
+    const menu = new Promise<RefObject<HTMLDivElement>>((res, rej) => {
+      setTimeout(() => {
+        if (menuitemRef) {
+          res(menuitemRef);
+        } else rej(null);
+      }, 100);
+    });
+    // wait for both promises to complete concurrently
+    Promise.all([menuItems, menu]).then(([listRef, menuRef]) => {
+      // get height of submenu so we know how much margin to apply at bottom
+      const menuHeight = listRef?.current?.offsetHeight || 0;
 
-      const menu = new Promise<RefObject<HTMLDivElement>>((res, rej) => {
-        setTimeout(() => {
-          if (menuitemRef) {
-            res(menuitemRef);
-          } else rej(null);
-        }, 100);
-      });
-
-      Promise.all([menuItems, menu]).then(([listRef, menuRef]) => {
-        const height = listRef?.current?.offsetHeight || 0;
-        if (menuRef && menuRef.current) {
-          const level = menuRef.current.getAttribute('data-menu-level');
-          if (level && +level > 0) {
-            if (currentMenuState === false) {
-              // expand menu to make room for submenu
-              menuRef.current.style.paddingBottom = height + 'px';
-              // wait for menu to expand before submenu fades in
-              setTimeout(() => {
-                if (listRef && listRef.current)
-                  listRef.current.style.opacity = '1';
-              }, 200);
-            } else {
-              // collapse menu and submenu
+      if (menuRef && menuRef.current) {
+        const menuLevel = menuRef.current.getAttribute('data-menu-level');
+        // only expand menu in dropdown, not top-level menu
+        if (menuLevel && +menuLevel > 0) {
+          if (currentMenuState === false) {
+            // menu is closed and will be opening
+            // expand menu to make room for submenu
+            menuRef.current.style.paddingBottom = menuHeight + 'px';
+            // wait for menu to expand before submenu fades in
+            // purely for aesthetic purposes
+            setTimeout(() => {
               if (listRef && listRef.current)
-                listRef.current.style.opacity = '0';
-              menuRef.current.style.paddingBottom = '0';
-            }
+                listRef.current.style.opacity = '1';
+            }, 200);
+          } else {
+            // menu is opened and will be closing
+            // collapse menu and submenu
+            if (listRef && listRef.current) listRef.current.style.opacity = '0';
+            menuRef.current.style.paddingBottom = '0';
           }
         }
-      });
+      }
+    });
+  }
+
+  function toggleMenu() {
+    if (menuIsTopLevel) {
+      // for top-level menu
+      setTopLevelMenus({ type: ActionTypes.OPEN, payload: node.title });
+    } else {
+      // not a top-level menu
+      openSubmenu();
     }
   }
 

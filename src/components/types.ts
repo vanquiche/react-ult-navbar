@@ -6,6 +6,7 @@ export interface Props {
   logoLink?: string;
   theme?: Themes;
   label?: string;
+  navigationTree: NavNodeType[];
 }
 
 export interface NavNodeType {

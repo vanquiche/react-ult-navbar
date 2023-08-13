@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useReducer } from 'react';
 
 // TYPES
 import { Props } from '../types';
@@ -8,12 +8,15 @@ import ThemeContext, {
   LightTheme,
   DarkTheme,
 } from '../../Contexts/ThemeContext';
+import TopLevelMenuContext from '../../Contexts/TopLevelMenuContext';
 
 // STYLESHEET
 import styles from './Nav.module.css';
 import '../global.css';
 import NavNode from '../NavNode/NavNode';
-import TopLevelMenuContext from '../../Contexts/TopLevelMenuContext';
+
+// REDUCERS
+import { topLevelMenuReducer } from '../../Reducers/topLevelMenuReducers';
 
 const Logo = () => <span>&#128512;</span>;
 
@@ -30,7 +33,7 @@ const Nav = ({
     [theme]
   );
 
-  const topLevelmenus = useMemo(() => {
+  const menus = useMemo(() => {
     const menus: Record<string, boolean> = {};
     for (let i = 0; i < navigationTree.length; i++) {
       if (navigationTree[i].submenu) {
@@ -40,7 +43,10 @@ const Nav = ({
     return menus;
   }, [navigationTree]);
 
-  const [topLevelMenus, setTopLevelMenus] = useState(topLevelmenus);
+  const [topLevelMenus, setTopLevelMenus] = useReducer(
+    topLevelMenuReducer,
+    menus
+  );
 
   return (
     <ThemeContext.Provider value={userTheme}>
